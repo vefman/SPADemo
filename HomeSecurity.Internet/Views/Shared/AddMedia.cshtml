@@ -1,0 +1,9 @@
+﻿<div id="add-media-view" style="display: none;">
+    <span>Drop files here to upload</span>            
+
+<ul data-bind="template: { name: 'upload-template', foreach: uploads }">
+</ul>
+<script type="text/html" id="upload-template">
+    <li><span>Uploaded: <small data-bind="text: Media"></small></span></li>
+</script>
+</div>

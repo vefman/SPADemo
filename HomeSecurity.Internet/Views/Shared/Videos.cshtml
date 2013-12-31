@@ -1,0 +1,13 @@
+﻿<section id="videos-view" data-bind="foreach: videos" class="view">    
+    <article class="article-right-content">
+        <div>
+            <input type="hidden" data-bind="value: id" />
+            <video style="height:300px;width:400px"> 
+                    <source data-bind="attr: {src: source}" type="video/mp4" />               
+            </video>
+            <small data-bind="text: timeStamp"></small>
+            <small data-bind="text: description"></small>
+        </div>
+        <input type="checkbox" />        
+    </article>
+</section>

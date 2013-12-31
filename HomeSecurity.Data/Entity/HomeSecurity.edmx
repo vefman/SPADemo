@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HomeSecurityModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="HomeSecurityModelStoreContainer">
+          <EntitySet Name="AppSetting" EntityType="HomeSecurityModel.Store.AppSetting" store:Type="Tables" store:Schema="dbo" store:Name="AppSetting">
+            <DefiningQuery>SELECT 
+      [AppSetting].[SettingName] AS [SettingName], 
+      [AppSetting].[SettingValue] AS [SettingValue]
+      FROM [dbo].[AppSetting] AS [AppSetting]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Media" EntityType="HomeSecurityModel.Store.Media" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MediaReference" EntityType="HomeSecurityModel.Store.MediaReference" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_MediaReference_Media1" Association="HomeSecurityModel.Store.FK_MediaReference_Media1">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="MediaReference" EntitySet="MediaReference" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MediaReference_Media2" Association="HomeSecurityModel.Store.FK_MediaReference_Media2">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="MediaReference" EntitySet="MediaReference" />
+          </AssociationSet>
+        </EntityContainer>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'HomeSecurity.dbo.AppSetting' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="AppSetting">
+          <Key>
+            <PropertyRef Name="SettingName" />
+            <PropertyRef Name="SettingValue" />
+          </Key>
+          <Property Name="SettingName" Type="varchar" Nullable="false" MaxLength="150" />
+          <Property Name="SettingValue" Type="varchar" Nullable="false" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Media">
+          <Key>
+            <PropertyRef Name="MediaID" />
+          </Key>
+          <Property Name="MediaID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MediaDate" Type="datetime" Nullable="false" />
+          <Property Name="MediaDescription" Type="varchar(max)" />
+          <Property Name="MediaType" Type="char" Nullable="false" MaxLength="1" />
+          <Property Name="MediaName" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MediaReference">
+          <Key>
+            <PropertyRef Name="MediaID1" />
+            <PropertyRef Name="MediaID2" />
+          </Key>
+          <Property Name="MediaID1" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MediaID2" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_MediaReference_Media1">
+          <End Role="Media" Type="HomeSecurityModel.Store.Media" Multiplicity="1" />
+          <End Role="MediaReference" Type="HomeSecurityModel.Store.MediaReference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Media">
+              <PropertyRef Name="MediaID" />
+            </Principal>
+            <Dependent Role="MediaReference">
+              <PropertyRef Name="MediaID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MediaReference_Media2">
+          <End Role="Media" Type="HomeSecurityModel.Store.Media" Multiplicity="1" />
+          <End Role="MediaReference" Type="HomeSecurityModel.Store.MediaReference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Media">
+              <PropertyRef Name="MediaID" />
+            </Principal>
+            <Dependent Role="MediaReference">
+              <PropertyRef Name="MediaID2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HomeSecurityModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="HomeSecurityEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AppSettings" EntityType="HomeSecurityModel.AppSetting" />
+          <EntitySet Name="Media" EntityType="HomeSecurityModel.Medium" />
+          <AssociationSet Name="MediaReference" Association="HomeSecurityModel.MediaReference">
+            <End Role="Medium" EntitySet="Media" />
+            <End Role="Medium1" EntitySet="Media" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AppSetting">
+          <Key>
+            <PropertyRef Name="SettingName" />
+            <PropertyRef Name="SettingValue" />
+          </Key>
+          <Property Type="String" Name="SettingName" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SettingValue" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Medium">
+          <Key>
+            <PropertyRef Name="MediaID" />
+          </Key>
+          <Property Type="Guid" Name="MediaID" Nullable="false" />
+          <Property Type="DateTime" Name="MediaDate" Nullable="false" Precision="3" />
+          <Property Type="String" Name="MediaDescription" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="MediaType" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="MediaName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Media1" Relationship="HomeSecurityModel.MediaReference" FromRole="Medium" ToRole="Medium1" />
+          <NavigationProperty Name="Media" Relationship="HomeSecurityModel.MediaReference" FromRole="Medium1" ToRole="Medium" />
+        </EntityType>
+        <Association Name="MediaReference">
+          <End Type="HomeSecurityModel.Medium" Role="Medium" Multiplicity="*" />
+          <End Type="HomeSecurityModel.Medium" Role="Medium1" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HomeSecurityModelStoreContainer" CdmEntityContainer="HomeSecurityEntities">
+          <EntitySetMapping Name="AppSettings">
+            <EntityTypeMapping TypeName="HomeSecurityModel.AppSetting">
+              <MappingFragment StoreEntitySet="AppSetting">
+                <ScalarProperty Name="SettingValue" ColumnName="SettingValue" />
+                <ScalarProperty Name="SettingName" ColumnName="SettingName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Media">
+            <EntityTypeMapping TypeName="HomeSecurityModel.Medium">
+              <MappingFragment StoreEntitySet="Media">
+                <ScalarProperty Name="MediaName" ColumnName="MediaName" />
+                <ScalarProperty Name="MediaType" ColumnName="MediaType" />
+                <ScalarProperty Name="MediaDescription" ColumnName="MediaDescription" />
+                <ScalarProperty Name="MediaDate" ColumnName="MediaDate" />
+                <ScalarProperty Name="MediaID" ColumnName="MediaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MediaReference" TypeName="HomeSecurityModel.MediaReference" StoreEntitySet="MediaReference">
+            <EndProperty Name="Medium1">
+              <ScalarProperty Name="MediaID" ColumnName="MediaID2" />
+            </EndProperty>
+            <EndProperty Name="Medium">
+              <ScalarProperty Name="MediaID" ColumnName="MediaID1" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="HomeSecurity">
+        <EntityTypeShape EntityType="HomeSecurityModel.AppSetting" Width="1.5" PointX="2.75" PointY="0.75" Height="1.4033821614583326" />
+        <EntityTypeShape EntityType="HomeSecurityModel.Medium" Width="1.5" PointX="0.75" PointY="0.75" Height="2.3648893229166674" />
+        <AssociationConnector Association="HomeSecurityModel.MediaReference" >
+          <ConnectorPoint PointX="1.2819230769230767" PointY="3.1148893229166674" />
+          <ConnectorPoint PointX="1.2819230769230767" PointY="3.3648893229166674" />
+          <ConnectorPoint PointX="1.7284615384615383" PointY="3.3648893229166674" />
+          <ConnectorPoint PointX="1.7284615384615383" PointY="3.1148893229166674" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    
+    @*Set the viewport width to device width for mobile *@
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Home Security</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    
+    @Styles.Render("~/Content/foundation/css") 
+     @Styles.Render("~/Content/themes/base/css")   
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="row">
+        <div class="row">
+            <div class="8 columns">
+                <div id="busyindicator"></div>
+            </div>
+            <div class="4 columns">
+                <header>
+                    @RenderSection("header", required: false)            
+                </header>
+            </div>
+        </div>
+        <div class="row">
+            <div id="body" class="12 columns">
+                <section class="content-wrapper main-content clear-fix">
+                    @RenderBody()
+                </section>
+            </div>
+        </div>
+    </div>    
+
+     @Scripts.Render(
+        "~/bundles/jquery", 
+        "~/bundles/jqueryui", 
+        "~/bundles/jqueryval",
+        "~/bundles/ko",
+        "~/bundles/amplify",
+        "~/bundles/sammy",
+        "~/bundles/foundation",
+        "~/Scripts/Reference/require.js",                     
+        //"~/bundles/hsapp",
+        "~/Scripts/App/Helper/hs.helper.common.js",
+        "~/Scripts/App/Helper/hs.helper.home.js",
+        "~/Scripts/App/Helper/hs.helper.media.js",
+        "~/Scripts/App/Helper/hs.helper.router.js",
+        "~/Scripts/App/Helper/hs.helper.ui.js",
+        "~/Scripts/App/Presenter/hs.presenter.addmedia.js",
+        "~/Scripts/App/Presenter/hs.presenter.deletemedia.js",
+        "~/Scripts/App/Presenter/hs.presenter.editmedia.js",
+        "~/Scripts/App/Presenter/hs.presenter.home.js",
+        "~/Scripts/App/ViewModel/hs.viewdata.pictureviewdata.js",
+        "~/Scripts/App/ViewModel/hs.viewdata.videoviewdata.js",
+        "~/Scripts/App/ViewModel/hs.viewmodel.addmediamodel.js",
+        "~/Scripts/App/ViewModel/hs.viewmodel.homemodel.js",
+        "~/Scripts/hs.main.js")     
+    
+    
+</body>
+</html>

@@ -1,0 +1,20 @@
+﻿<section id="pictures-view" data-bind="foreach: pictures" class="view">    
+    <article class="article-right-content">
+        <div data-bind="click: editPicture">
+            <table>
+            <tr>
+            <td>
+                <input type="hidden" data-bind="value: id" />
+                <img data-bind="attr: {src: source}" style="width:200px;height:200px">                
+                </img>            
+            </td>
+            <td>                
+                <small data-bind="text: description"></small><br />
+                <small data-bind="text: timeStamp"></small>
+            </td>
+            </tr>
+            </table>
+        </div>
+        <input type="checkbox" data-bind="checked: checked" />        
+    </article>
+</section>
